@@ -11,6 +11,7 @@ export class UserService {
       ) {}
 
       create(data: any): Promise<User>{
+          const user : User = data
           return this.customerRepository.save(data);
       }
     
