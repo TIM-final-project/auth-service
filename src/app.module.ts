@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config'
 import { GraphQLModule } from '@nestjs/graphql'
-import { join } from 'path';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './user/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,7 +17,8 @@ import { UsersModule } from './users/users.module';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql'
-    })
+    }),
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
