@@ -8,6 +8,9 @@ const NODE_ENV: string = process.env.NODE_ENV || 'local'
 //application
 const PORT: number = +process.env.PORT || 14047
 
+//jwt
+const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY
+
 // typeorm
 const environment = {
     local: {
@@ -33,5 +36,6 @@ const TYPEORM = environment[NODE_ENV]
 export {
     NODE_ENV,
     PORT,
-    TYPEORM
+    TYPEORM,
+    JWT_SECRET_KEY as JWT_SECRET_JEY
 }
