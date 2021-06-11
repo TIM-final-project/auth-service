@@ -13,7 +13,7 @@ import { GqlAuthGuard } from "src/auth/guards/gql-auth.guard";
 export class UserResolver {
     constructor(
         @Inject(UserService) private userService: UserService,
-        private authService: AuthService
+        @Inject(AuthService) private authService: AuthService
     ){}
 
     @Query(returns => UserSchema)
@@ -29,12 +29,12 @@ export class UserResolver {
     }
 
     @Mutation(returns => UserSchema)
-    @UseGuards(GqlAuthGuard)
-    async createUser(
+    async register(
         @Args() input: CreateUserInput
     ): Promise<UserSchema>{
-        const userSchema : UserSchema = await this.userService.create(input);
-        return userSchema;
+        return this.authService.register(input);
+
+        //create user in entities
     }
 
     @Mutation(() => LoginDto)
