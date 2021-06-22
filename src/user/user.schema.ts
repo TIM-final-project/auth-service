@@ -1,8 +1,13 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType, ID, Directive } from '@nestjs/graphql';
+import { AllowedRol } from './enum/user-rol.enum';
+
+registerEnumType(AllowedRol, {
+    name: 'AllowedRol',
+});
 
 @ObjectType()
 export class UserSchema {
-    @Field()
+    @Field((type) => ID)
     uuid?: string;
 
     @Field()
@@ -11,7 +16,7 @@ export class UserSchema {
     @Field()
     password?: string;
     
-    @Field()
+    @Field(type => AllowedRol)
     rol: string;
   
     @Field()

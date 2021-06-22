@@ -2,14 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserSchema {
-  uuid: String!
-  username: String!
-  password: String!
-  rol: String!
-  active: Boolean!
-  created_at: DateTime!
-  updated_at: DateTime!
+type LoginDto {
+  uuid: ID
+  username: String
+  rol: AllowedRol
+  active: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  access_token: String!
+}
+
+enum AllowedRol {
+  ADMIN
+  DRIVER
+  CONTRACTOR
+  AUDITOR
+  SUPERVISOR
+  SECURITY
 }
 
 """
@@ -17,22 +26,22 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type LoginDto {
-  uuid: String
+type UserDto {
+  uuid: ID
   username: String
-  rol: String
+  rol: AllowedRol
   active: Boolean
   created_at: DateTime
   updated_at: DateTime
-  access_token: String!
 }
 
 type Query {
-  user(uuid: String!): UserSchema!
-  users: [UserSchema!]!
+  user(uuid: String!): UserDto!
+  users: [UserDto!]!
 }
 
 type Mutation {
-  register(username: String!, password: String!, rol: String!): UserSchema!
+  createUser(username: String!, password: String!, rol: String!): UserDto!
+  updateUser(username: String, password: String, rol: String): UserDto!
   loginUser(username: String!, password: String!): LoginDto!
 }

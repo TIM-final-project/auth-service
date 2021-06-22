@@ -1,13 +1,14 @@
-import { Inject, UseGuards, Request, UnauthorizedException } from "@nestjs/common";
-import { Args, Resolver, Query, Mutation, Context} from "@nestjs/graphql";
+import { Inject, UseGuards, UnauthorizedException } from "@nestjs/common";
+import { Args, Resolver, Query, Mutation, ResolveReference} from "@nestjs/graphql";
 import { UserSchema } from "./user.schema";
-import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 import { CreateUserInput } from "./args/create-user.input"
 import { LoginUserInput } from "./args/login-user.input";
 import { AuthService } from "src/auth/auth.service";
 import { LoginDto } from "src/auth/dto/login.dto";
 import { GqlAuthGuard } from "src/auth/guards/gql-auth.guard";
+import { UserDto } from "./dto/user.dto";
+import { UpdateUserInput } from "./args/update-user.input";
 
 @Resolver(of => UserSchema )
 export class UserResolver {
@@ -16,27 +17,41 @@ export class UserResolver {
         @Inject(AuthService) private authService: AuthService
     ){}
 
-    @Query(returns => UserSchema)
+    //Read user
+    @Query(returns => UserDto)
     @UseGuards(GqlAuthGuard)
-    async user(@Args('uuid') uuid: string): Promise<UserEntity>{
+    async user(@Args('uuid') uuid: string): Promise<UserDto>{
         return await this.userService.findOne(uuid);
     }
 
-    @Query(returns => [UserSchema])
+    //Read users
+    @Query(returns => [UserDto])
     @UseGuards(GqlAuthGuard)
-    async users(): Promise<UserEntity[]>{
+    async users(): Promise<UserDto[]>{
         return await this.userService.findAll();
     }
 
-    @Mutation(returns => UserSchema)
-    async register(
+    //Create user
+    @Mutation(returns => UserDto)
+    async createUser(
         @Args() input: CreateUserInput
-    ): Promise<UserSchema>{
+    ): Promise<UserDto>{
         return this.authService.register(input);
 
         //create user in entities
     }
 
+    //Update user
+    @Mutation(returns => UserDto)
+    async updateUser(
+        @Args() input: UpdateUserInput
+    ): Promise<UserDto>{
+
+        return null;
+        //create user in entities
+    }
+
+    //Login user
     @Mutation(() => LoginDto)
     async loginUser(
         @Args() loginCredentials: LoginUserInput,
@@ -52,5 +67,4 @@ export class UserResolver {
             access_token: this.authService.login(user).access_token
         };
     }
-
 }
