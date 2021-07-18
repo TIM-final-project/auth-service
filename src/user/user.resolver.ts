@@ -1,5 +1,5 @@
 import { Inject, UseGuards, UnauthorizedException } from "@nestjs/common";
-import { Args, Resolver, Query, Mutation, ResolveReference} from "@nestjs/graphql";
+import { Args, Resolver, Query, Mutation, ResolveField, Parent} from "@nestjs/graphql";
 import { UserSchema } from "./user.schema";
 import { UserService } from "./user.service";
 import { CreateUserInput } from "./args/create-user.input"
@@ -9,6 +9,7 @@ import { LoginDto } from "src/auth/dto/login.dto";
 import { GqlAuthGuard } from "src/auth/guards/gql-auth.guard";
 import { UserDto } from "./dto/user.dto";
 import { UpdateUserInput } from "./args/update-user.input";
+import { ContractorSchema } from "src/external/entities/contractors/contractor.schema";
 
 @Resolver(of => UserSchema )
 export class UserResolver {
@@ -19,7 +20,7 @@ export class UserResolver {
 
     //Read user
     @Query(returns => UserDto)
-    @UseGuards(GqlAuthGuard)
+    //@UseGuards(GqlAuthGuard)
     async user(@Args('uuid') uuid: string): Promise<UserDto>{
         return await this.userService.findOne(uuid);
     }
@@ -67,4 +68,10 @@ export class UserResolver {
             access_token: this.authService.login(user).access_token
         };
     }
+
+    @ResolveField((of) => ContractorSchema)
+    contractor(@Parent() user: UserSchema): any {
+        return { __typename: 'Contractor', id: user.entityId };
+    }
+
 }

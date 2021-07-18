@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { ObjectType, Field } from '@nestjs/graphql';
 
 @Entity()
 export class UserEntity {
@@ -18,6 +17,9 @@ export class UserEntity {
 
   @Column({nullable: false})
   rol: string;
+
+  @Column({nullable: true})
+  entityId?: number;
 
   @Column({ default: false })
   active?: boolean;
