@@ -5,8 +5,8 @@ import { UserSchema } from 'src/user/user.schema';
 @Directive('@extends')
 @Directive('@key(fields: "id")')
 export class ContractorSchema {
-    @Directive('@external')
     @Field((type) => ID, { nullable: true })
+    @Directive('@external')
     id?: number;
 
     @Field((type) => UserSchema)

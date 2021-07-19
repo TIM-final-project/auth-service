@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { AllowedRol } from './enum/user-rol.enum';
 
 @Entity()
 export class UserEntity {
@@ -15,8 +16,12 @@ export class UserEntity {
   @Column({nullable: false})
   password: string;
 
-  @Column({nullable: false})
-  rol: string;
+  @Column({
+    type: "enum",
+    enum: AllowedRol,
+    nullable: false
+  })
+  rol: AllowedRol;
 
   @Column({nullable: true})
   entityId?: number;

@@ -19,16 +19,16 @@ export class UserResolver {
     ){}
 
     //Read user
-    @Query(returns => UserDto)
+    @Query(returns => UserSchema)
     //@UseGuards(GqlAuthGuard)
-    async user(@Args('uuid') uuid: string): Promise<UserDto>{
+    async getUser(@Args('uuid') uuid: string): Promise<UserDto>{
         return await this.userService.findOne(uuid);
     }
 
     //Read users
     @Query(returns => [UserDto])
     @UseGuards(GqlAuthGuard)
-    async users(): Promise<UserDto[]>{
+    async getUsers(): Promise<UserDto[]>{
         return await this.userService.findAll();
     }
 
@@ -70,8 +70,8 @@ export class UserResolver {
     }
 
     @ResolveField((of) => ContractorSchema)
-    contractor(@Parent() user: UserSchema): any {
-        return { __typename: 'Contractor', id: user.entityId };
+    async contractor(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'ContractorSchema', id: user.entityId };
     }
 
 }

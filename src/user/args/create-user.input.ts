@@ -7,5 +7,5 @@ export class CreateUserInput {
   @Field()
   password: string;
   @Field()
-  readonly rol: string;
+  readonly rol: number;
 }

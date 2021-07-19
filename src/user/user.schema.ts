@@ -19,7 +19,7 @@ export class UserSchema {
     password?: string;
     
     @Field(type => AllowedRol)
-    rol: string;
+    rol: AllowedRol;
   
     @Field()
     active?: boolean;

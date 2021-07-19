@@ -15,7 +15,6 @@ directive @provides(fields: String!) on FIELD_DEFINITION
 type ContractorSchema {
   id: ID
   user: UserSchema!
-  users: UserSchema!
 }
 
 type UserSchema {
@@ -68,12 +67,12 @@ type UserDto {
 }
 
 type Query {
-  user(uuid: String!): UserDto!
-  users: [UserDto!]!
+  getUser(uuid: String!): UserSchema!
+  getUsers: [UserDto!]!
 }
 
 type Mutation {
-  createUser(username: String!, password: String!, rol: String!): UserDto!
-  updateUser(username: String, password: String, rol: String): UserDto!
+  createUser(username: String!, password: String!, rol: Float!): UserDto!
+  updateUser(username: String, password: String, rol: Float): UserDto!
   loginUser(username: String!, password: String!): LoginDto!
 }
