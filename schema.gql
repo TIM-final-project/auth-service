@@ -72,7 +72,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(username: String!, password: String!, rol: Float!): UserDto!
-  updateUser(username: String, password: String, rol: Float): UserDto!
+  createUser(username: String!, password: String!, rol: Float!, entity: Float!): UserDto!
+  updateUser(username: String, password: String, rol: Float, entity: Float): UserDto!
   loginUser(username: String!, password: String!): LoginDto!
 }

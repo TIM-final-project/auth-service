@@ -30,11 +30,6 @@ export class UserService {
       }
 
       async findByEntity(id: number, rol: AllowedRol): Promise<UserEntity>{
-        // switch(rol){
-        //   case AllowedRol.CONTRACTOR:
-        //     return this.userRepository.findOne({rol: AllowedRol.CONTRACTOR, entityId: 1})
-        //     break;
-        // }
-        return await {username: "martinbelcic", password: "passssss", rol: AllowedRol.CONTRACTOR, uuid: "5c1ad8fe-8ec2-4bbf-a0f8-603127a219a0"}
+        return this.userRepository.findOne({rol: AllowedRol.CONTRACTOR, entityId: id})
       }
 }
