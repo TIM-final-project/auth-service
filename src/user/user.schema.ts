@@ -32,7 +32,4 @@ export class UserSchema {
 
     @Field((type) => Int)
     entityId?: number
-
-    @Field((type) => ContractorSchema)
-    contractor?: ContractorSchema;
 }

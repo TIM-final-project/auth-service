@@ -27,6 +27,10 @@ type UserSchema {
   updated_at: DateTime!
   entityId: Int!
   contractor: ContractorSchema!
+  driver: DriverSchema!
+  auditor: AuditorSchema!
+  manager: ManagerSchema!
+  security: SecuritySchema!
 }
 
 enum AllowedRol {
@@ -34,7 +38,7 @@ enum AllowedRol {
   DRIVER
   CONTRACTOR
   AUDITOR
-  SUPERVISOR
+  MANAGER
   SECURITY
 }
 
@@ -42,6 +46,26 @@ enum AllowedRol {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type AuditorSchema {
+  id: ID
+  user: UserSchema!
+}
+
+type DriverSchema {
+  id: ID
+  user: UserSchema!
+}
+
+type ManagerSchema {
+  id: ID
+  user: UserSchema!
+}
+
+type SecuritySchema {
+  id: ID
+  user: UserSchema!
+}
 
 type LoginDto {
   uuid: ID
@@ -51,7 +75,6 @@ type LoginDto {
   created_at: DateTime
   updated_at: DateTime
   entityId: Int
-  contractor: ContractorSchema
   access_token: String!
 }
 
@@ -63,7 +86,6 @@ type UserDto {
   created_at: DateTime
   updated_at: DateTime
   entityId: Int
-  contractor: ContractorSchema
 }
 
 type Query {
