@@ -3,6 +3,6 @@ export enum AllowedRol{
     DRIVER,
     CONTRACTOR,
     AUDITOR,
-    SUPERVISOR,
+    MANAGER,
     SECURITY
 }

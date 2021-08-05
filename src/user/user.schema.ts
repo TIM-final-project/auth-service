@@ -1,4 +1,5 @@
-import { ObjectType, Field, registerEnumType, ID, Directive } from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType, ID, Directive, Int } from '@nestjs/graphql';
+import { ContractorSchema } from 'src/external/entities/contractors/contractor.schema';
 import { AllowedRol } from './enum/user-rol.enum';
 
 registerEnumType(AllowedRol, {
@@ -6,6 +7,7 @@ registerEnumType(AllowedRol, {
 });
 
 @ObjectType()
+@Directive('@key(fields: "uuid")')
 export class UserSchema {
     @Field((type) => ID)
     uuid?: string;
@@ -17,7 +19,7 @@ export class UserSchema {
     password?: string;
     
     @Field(type => AllowedRol)
-    rol: string;
+    rol: AllowedRol;
   
     @Field()
     active?: boolean;
@@ -27,4 +29,7 @@ export class UserSchema {
   
     @Field()
     updated_at?: Date;
+
+    @Field((type) => Int)
+    entityId?: number
 }

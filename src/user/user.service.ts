@@ -3,6 +3,7 @@ import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserInput } from './args/create-user.input';
+import { AllowedRol } from './enum/user-rol.enum';
 
 @Injectable()
 export class UserService {
@@ -26,5 +27,9 @@ export class UserService {
 
       findOneByUsername(username: string): Promise<UserEntity>{
         return this.userRepository.findOne({username: username})
+      }
+
+      async findByEntity(id: number, rol: AllowedRol): Promise<UserEntity>{
+        return this.userRepository.findOne({rol: AllowedRol.CONTRACTOR, entityId: id})
       }
 }

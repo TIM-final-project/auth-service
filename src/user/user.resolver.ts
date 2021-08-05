@@ -1,5 +1,5 @@
 import { Inject, UseGuards, UnauthorizedException } from "@nestjs/common";
-import { Args, Resolver, Query, Mutation, ResolveReference} from "@nestjs/graphql";
+import { Args, Resolver, Query, Mutation, ResolveField, Parent} from "@nestjs/graphql";
 import { UserSchema } from "./user.schema";
 import { UserService } from "./user.service";
 import { CreateUserInput } from "./args/create-user.input"
@@ -9,6 +9,11 @@ import { LoginDto } from "src/auth/dto/login.dto";
 import { GqlAuthGuard } from "src/auth/guards/gql-auth.guard";
 import { UserDto } from "./dto/user.dto";
 import { UpdateUserInput } from "./args/update-user.input";
+import { ContractorSchema } from "src/external/entities/contractors/contractor.schema";
+import { DriverSchema } from "src/external/entities/drivers/driver.schema";
+import { AuditorSchema } from "src/external/entities/auditors/auditor.schema";
+import { ManagerSchema } from "src/external/entities/managers/manager.schema";
+import { SecuritySchema } from "src/external/entities/security/security.schema";
 
 @Resolver(of => UserSchema )
 export class UserResolver {
@@ -18,16 +23,16 @@ export class UserResolver {
     ){}
 
     //Read user
-    @Query(returns => UserDto)
-    @UseGuards(GqlAuthGuard)
-    async user(@Args('uuid') uuid: string): Promise<UserDto>{
+    @Query(returns => UserSchema)
+    //@UseGuards(GqlAuthGuard)
+    async getUser(@Args('uuid') uuid: string): Promise<UserDto>{
         return await this.userService.findOne(uuid);
     }
 
     //Read users
     @Query(returns => [UserDto])
     @UseGuards(GqlAuthGuard)
-    async users(): Promise<UserDto[]>{
+    async getUsers(): Promise<UserDto[]>{
         return await this.userService.findAll();
     }
 
@@ -67,4 +72,30 @@ export class UserResolver {
             access_token: this.authService.login(user).access_token
         };
     }
+
+    @ResolveField((of) => ContractorSchema)
+    async contractor(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'ContractorSchema', id: user.entityId };
+    }
+
+    @ResolveField((of) => DriverSchema)
+    async driver(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'DriverSchema', id: user.entityId };
+    }
+
+    @ResolveField((of) => AuditorSchema)
+    async auditor(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'AuditorSchema', id: user.entityId };
+    }
+
+    @ResolveField((of) => ManagerSchema)
+    async manager(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'ManagerSchema', id: user.entityId };
+    }
+
+    @ResolveField((of) => SecuritySchema)
+    async security(@Parent() user: UserDto): Promise<any> {
+        return { __typename: 'SecuritySchema', id: user.entityId };
+    }
+
 }
