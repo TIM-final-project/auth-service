@@ -9,7 +9,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 			...TYPEORM,
 			type: 'mysql',
 			entities: ['dist/**/*.entity{ .ts,.js}'],
-			synchronize: true,
+			synchronize: false,
             autoLoadEntities: true,
 			keepConnectionAlive: true,
 			logging: true
