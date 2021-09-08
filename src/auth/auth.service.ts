@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_SECRET_JEY } from 'src/environments';
-import { UserSchema } from 'src/user/user.schema';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
-import { CreateUserInput } from 'src/user/args/create-user.input';
+import { UserEntity } from 'src/user/user.entity';
+import { UserDto } from 'src/user/dto/user.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,20 +14,20 @@ export class AuthService {
       private jwtService: JwtService
     ) {}
 
-    async validateUser(username: string, pass: string): Promise<UserSchema> | null {
+    async validateUser(username: string, pass: string): Promise<UserEntity> | null {
         const user = await this.userService.findOneByUsername(username);
         if (user){
           const isMatch = await bcrypt.compare(pass, user.password);
           if(isMatch){
             const { password, ...result } = user;
-            return result;
+            return result as UserEntity; 
           }
         }
         
         return null;
     }
     
-    login(user: UserSchema): { access_token: string }{
+    login(user: UserEntity): { access_token: string }{
         const payload = {
           userId: user.uuid,
           rol: user.rol
@@ -37,7 +38,7 @@ export class AuthService {
         };
     }
 
-    async register(credentials : CreateUserInput) : Promise<UserSchema>{
+    async register(credentials : RegisterDto) : Promise<UserEntity>{
         const user = await this.userService.findOneByUsername(credentials.username);
 
         if(user){
@@ -53,18 +54,18 @@ export class AuthService {
 
     }
 
-    async verify(token: string): Promise<UserSchema> {
+    async verify(token: string): Promise<UserDto> {
       const decoded = this.jwtService.verify(token,{
         secret: JWT_SECRET_JEY
       });
 
-      const user = this.userService.findOne(decoded.uuid);
+      const user : UserEntity = await this.userService.findOne(decoded.uuid);
 
       if(!user){
         throw new Error('No se encontro el usuario dentro del token');
       }
 
-      return user;
+      return user as UserDto;
     }
 
 }

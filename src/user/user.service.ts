@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserInput } from './args/create-user.input';
+import { RegisterDto } from '../auth/dto/register.dto';
 import { AllowedRol } from './enum/user-rol.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,9 +13,14 @@ export class UserService {
         private userRepository: Repository<UserEntity>,
       ) {}
 
-      create(createInputDTO: CreateUserInput): Promise<UserEntity>{
-          const user : UserEntity = createInputDTO;
-          return this.userRepository.save(user);
+      create(createUserDTO: RegisterDto): Promise<UserEntity>{
+          return this.userRepository.save(createUserDTO as UserEntity);
+      }
+
+      async update(uuid: string, updateUserDTO: UpdateUserDto): Promise<UserEntity>{
+        const user : UserEntity = await this.findOne(uuid);
+        this.userRepository.merge(user, updateUserDTO);
+        return this.userRepository.save(user)
       }
     
       findAll(): Promise<UserEntity[]> {

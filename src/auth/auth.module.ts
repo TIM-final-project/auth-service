@@ -1,8 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JWT_SECRET_JEY } from 'src/environments';
 import { UsersModule } from 'src/user/users.module';
+import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
@@ -16,6 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     })
   ],
   providers: [AuthService, JwtStrategy],
-  exports: [AuthService]
+  exports: [AuthService],
+  controllers: [AuthController]
 })
 export class AuthModule {}
