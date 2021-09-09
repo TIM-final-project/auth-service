@@ -4,7 +4,6 @@ https://docs.nestjs.com/controllers#controllers
 
 import { Body, ClassSerializerInterceptor, Controller, Inject, Post, UnauthorizedException, UseInterceptors } from '@nestjs/common';
 import { UserEntity } from 'src/user/user.entity';
-import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
@@ -13,8 +12,7 @@ import { RegisterDto } from './dto/register.dto';
 @Controller()
 export class AuthController {
     constructor(
-        @Inject(AuthService) private authService: AuthService,
-        @Inject(UserService) private userService: UserService,
+        @Inject(AuthService) private authService: AuthService
     ){}
     
     @Post('login')
@@ -27,7 +25,7 @@ export class AuthController {
         }
 
         return {
-            ...user, 
+            uuid: user.uuid,
             access_token: this.authService.login(user).access_token
         } as LoginResponseDto;
     }

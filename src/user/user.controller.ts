@@ -2,12 +2,13 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Body, Controller, Get, Inject, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Inject, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController { 
     constructor(
         @Inject(UserService) private userService: UserService,
