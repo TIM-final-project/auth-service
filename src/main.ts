@@ -2,21 +2,32 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { PORT } from './environments';
 import 'reflect-metadata';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger('Main');
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.TCP,
+      options: {
+        host: '0.0.0.0',
+        port: PORT
+      }
+    },
+  );
 
-  const config = new DocumentBuilder()
-  .setTitle('Auth service')
-  .setDescription('Authorization and Authentication Microservice')
-  .setVersion('1.0')
-  .addTag('auth')
-  .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
-  await app.listen(PORT);
+  logger.log('Microservice is listening to ' + PORT);
+  await app.listen();
   
 }
+
+// async function bootstrap() {
+//   const app = await NestFactory.create(AppModule);
+//   await app.listen(PORT);
+// }
+// bootstrap();
+
 bootstrap();

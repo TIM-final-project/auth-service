@@ -7,12 +7,12 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     UsersModule,
+    AuthModule,
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
       useClass: TypeOrmConfigService
-    }),
-    AuthModule
+    })
   ]
 })
 export class AppModule {}

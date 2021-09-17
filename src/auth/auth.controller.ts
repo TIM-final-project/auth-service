@@ -1,8 +1,5 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import { Body, ClassSerializerInterceptor, Controller, Inject, Post, UnauthorizedException, UseInterceptors } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { UserEntity } from 'src/user/user.entity';
 import { AuthService } from './auth.service';
 import { LoginResponseDto } from './dto/login-response.dto';
@@ -15,7 +12,8 @@ export class AuthController {
         @Inject(AuthService) private authService: AuthService
     ){}
     
-    @Post('login')
+    //@Post('login')
+    @MessagePattern('login')
     async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto>{
         
         const user: UserEntity = await this.authService.validateUser(loginDto.username, loginDto.password);
@@ -30,8 +28,9 @@ export class AuthController {
         } as LoginResponseDto;
     }
     
+    //@Post("register")
+    @MessagePattern('register')
     @UseInterceptors(ClassSerializerInterceptor)
-    @Post('register')
     async register(@Body() registerDto: RegisterDto): Promise<UserEntity>{
         return new UserEntity(await this.authService.register(registerDto));
     }
