@@ -14,7 +14,7 @@ export class AuthController {
     
     //@Post('login')
     @MessagePattern('login')
-    async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto>{
+    async login(loginDto: LoginDto): Promise<LoginResponseDto>{
         
         const user: UserEntity = await this.authService.validateUser(loginDto.username, loginDto.password);
         
@@ -23,7 +23,7 @@ export class AuthController {
         }
 
         return {
-            uuid: user.uuid,
+            ...user,
             access_token: this.authService.login(user).access_token
         } as LoginResponseDto;
     }
@@ -31,7 +31,7 @@ export class AuthController {
     //@Post("register")
     @MessagePattern('register')
     @UseInterceptors(ClassSerializerInterceptor)
-    async register(@Body() registerDto: RegisterDto): Promise<UserEntity>{
+    async register(registerDto: RegisterDto): Promise<UserEntity>{
         return new UserEntity(await this.authService.register(registerDto));
     }
 
