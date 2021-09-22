@@ -5,7 +5,6 @@ import { JWT_SECRET_JEY } from 'src/environments';
 import { UsersModule } from 'src/user/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,7 +15,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       signOptions: { expiresIn: '3600s'}
     })
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService],
   exports: [AuthService],
   controllers: [AuthController]
 })

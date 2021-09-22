@@ -24,10 +24,4 @@ async function bootstrap() {
   
 }
 
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(PORT);
-// }
-// bootstrap();
-
 bootstrap();
