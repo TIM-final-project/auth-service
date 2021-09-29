@@ -1,8 +1,8 @@
-export enum AllowedRol{
-    ADMIN,
-    DRIVER,
-    CONTRACTOR,
-    AUDITOR,
-    MANAGER,
-    SECURITY
+export enum AllowedRol {
+  ADMIN,
+  DRIVER,
+  CONTRACTOR,
+  AUDITOR,
+  MANAGER,
+  SECURITY,
 }

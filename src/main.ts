@@ -14,14 +14,13 @@ async function bootstrap() {
       transport: Transport.TCP,
       options: {
         host: '0.0.0.0',
-        port: PORT
-      }
+        port: PORT,
+      },
     },
   );
 
   logger.log('Microservice is listening to ' + PORT);
   await app.listen();
-  
 }
 
 bootstrap();

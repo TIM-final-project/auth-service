@@ -8,15 +8,15 @@ import { AuthService } from './auth.service';
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule), 
+    forwardRef(() => UsersModule),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: JWT_SECRET_JEY,
-      signOptions: { expiresIn: '3600s'}
-    })
+      signOptions: { expiresIn: '3600s' },
+    }),
   ],
   providers: [AuthService],
   exports: [AuthService],
-  controllers: [AuthController]
+  controllers: [AuthController],
 })
 export class AuthModule {}

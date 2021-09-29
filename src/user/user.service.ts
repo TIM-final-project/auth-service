@@ -8,34 +8,40 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(UserEntity)
-        private userRepository: Repository<UserEntity>,
-      ) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
+  ) {}
 
-      create(createUserDTO: RegisterDto): Promise<UserEntity>{
-          return this.userRepository.save(createUserDTO as UserEntity);
-      }
+  create(createUserDTO: RegisterDto): Promise<UserEntity> {
+    return this.userRepository.save(createUserDTO as UserEntity);
+  }
 
-      async update(uuid: string, updateUserDTO: UpdateUserDto): Promise<UserEntity>{
-        const user : UserEntity = await this.findOne(uuid);
-        this.userRepository.merge(user, updateUserDTO);
-        return this.userRepository.save(user)
-      }
-    
-      findAll(): Promise<UserEntity[]> {
-        return this.userRepository.find();
-      }
-    
-      findOne(id: string): Promise<UserEntity> {
-        return this.userRepository.findOne(id);
-      }
+  async update(
+    uuid: string,
+    updateUserDTO: UpdateUserDto,
+  ): Promise<UserEntity> {
+    const user: UserEntity = await this.findOne(uuid);
+    this.userRepository.merge(user, updateUserDTO);
+    return this.userRepository.save(user);
+  }
 
-      findOneByUsername(username: string): Promise<UserEntity>{
-        return this.userRepository.findOne({username: username})
-      }
+  findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
+  }
 
-      async findByEntity(id: number, rol: AllowedRol): Promise<UserEntity>{
-        return this.userRepository.findOne({rol: AllowedRol.CONTRACTOR, entityId: id})
-      }
+  findOne(id: string): Promise<UserEntity> {
+    return this.userRepository.findOne(id);
+  }
+
+  findOneByUsername(username: string): Promise<UserEntity> {
+    return this.userRepository.findOne({ username: username });
+  }
+
+  async findByEntity(id: number, rol: AllowedRol): Promise<UserEntity> {
+    return this.userRepository.findOne({
+      rol: AllowedRol.CONTRACTOR,
+      entityId: id,
+    });
+  }
 }
