@@ -23,16 +23,18 @@ const typeorm_default = {
 const typeorm_conf = {
   dev: {
     ...typeorm_default,
-    syncronize: true,
+    synchronize: true,
     logging: true,
   },
   production: {
     ...typeorm_default,
-    syncronize: false,
+    synchronize: false,
     logging: false,
   },
 };
 
 const TYPEORM = typeorm_conf[NODE_ENV];
+
+console.log(TYPEORM)
 
 export { NODE_ENV, PORT, TYPEORM, JWT_SECRET_KEY as JWT_SECRET_JEY };

@@ -11,7 +11,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities: ['dist/**/*.entity{ .ts,.js}'],
       autoLoadEntities: true,
       keepConnectionAlive: true,
-      logging: true,
     };
   }
 }
