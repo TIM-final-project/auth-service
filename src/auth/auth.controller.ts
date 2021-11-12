@@ -1,10 +1,7 @@
 import {
-  Body,
   ClassSerializerInterceptor,
   Controller,
   Inject,
-  Post,
-  UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
 import { MessagePattern, RpcException } from '@nestjs/microservices';
@@ -27,7 +24,7 @@ export class AuthController {
     );
 
     if (!user) {
-      throw new RpcException({ message: 'Usuario o contraseña desconocidos' });
+      throw new RpcException({ message: 'Usuario o contraseña invalidos' });
     }
 
     return {
