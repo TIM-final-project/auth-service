@@ -33,7 +33,7 @@ export class UserEntity {
   @Column({ nullable: true })
   entityId?: number;
 
-  @Column({ default: false })
+  @Column({ default: true })
   active: boolean;
 
   @Column({ nullable: true })
