@@ -5,4 +5,6 @@ export enum AllowedRol {
   AUDITOR,
   MANAGER,
   SECURITY,
+  VEHICLE,
+  EXPEDITOR
 }

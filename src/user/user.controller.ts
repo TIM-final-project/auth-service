@@ -6,12 +6,9 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,
   Inject,
   Param,
   ParseUUIDPipe,
-  Patch,
-  Post,
   UseInterceptors,
 } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
