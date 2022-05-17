@@ -5,6 +5,8 @@ import 'reflect-metadata';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Logger } from '@nestjs/common';
 
+import newrelic from 'newrelic';
+
 const logger = new Logger('Main');
 
 async function bootstrap() {
