@@ -6,5 +6,6 @@ export enum AllowedRol {
   MANAGER,
   SECURITY,
   VEHICLE,
-  EXPEDITOR
+  EXPEDITOR,
+  SHITTY,
 }
