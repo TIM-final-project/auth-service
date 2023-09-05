@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RegisterDto } from '../auth/dto/register.dto';
 import { AllowedRol } from './enum/user-rol.enum';
 import { UpdatePasswordDto } from './dto/update-user.dto';
+import { UserQuery } from './interfaces/user-query.interface';
+import { UserQPs } from './interfaces/user.qps';
 
 @Injectable()
 export class UserService {
@@ -23,6 +25,21 @@ export class UserService {
 
   findAll(): Promise<UserEntity[]> {
     return this.userRepository.find();
+  }
+
+  findByRol(userQPs: UserQPs): Promise<UserEntity[]> {
+    const rols = userQPs.rols;
+    const where: UserQuery = {
+      active: true,
+    }
+    
+    if (rols?.length) {
+      where.rol = In(rols);
+    }
+    
+    return this.userRepository.find({
+      where
+    });
   }
 
   findOne(id: string): Promise<UserEntity> {
