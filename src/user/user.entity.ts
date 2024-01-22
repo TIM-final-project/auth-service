@@ -44,6 +44,9 @@ export class UserEntity {
   @UpdateDateColumn()
   updated_at?: Date;
 
+  @Column({ nullable: false })
+  plant: number;
+
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);
   }

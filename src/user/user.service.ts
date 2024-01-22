@@ -43,17 +43,27 @@ export class UserService {
   }
 
   findOne(id: string): Promise<UserEntity> {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOne({
+      where: {
+        uuid: id
+      }
+    });
   }
 
   findOneByUsername(username: string): Promise<UserEntity> {
-    return this.userRepository.findOne({ username: username });
+    return this.userRepository.findOne({ 
+      where:{
+        username: username 
+      }
+    });
   }
 
   async findByEntity(id: number, rol: AllowedRol): Promise<UserEntity> {
     return this.userRepository.findOne({
-      rol: rol,
-      entityId: id,
+      where: {
+        rol: rol,
+        entityId: id,
+      }
     });
   }
 }
