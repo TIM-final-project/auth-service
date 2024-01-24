@@ -3,5 +3,5 @@ export class RegisterDto {
   password: string;
   readonly rol: number;
   readonly entityId?: number;
-  readonly plant: number;
+  readonly plant?: number;
 }

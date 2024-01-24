@@ -44,7 +44,7 @@ export class UserEntity {
   @UpdateDateColumn()
   updated_at?: Date;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   plant: number;
 
   constructor(partial: Partial<UserEntity>) {
